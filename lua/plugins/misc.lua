@@ -7,6 +7,39 @@ return {
   -- WakaTime is an open source Vim plugin for metrics, insights, and time tracking automatically generated from your programming activity.
   { "wakatime/vim-wakatime" },
 
+  -- https://github.com/glepnir/dashboard-nvim
+  -- Fancy and Blazing Fast start screen plugin of neovim
+  {
+    'glepnir/dashboard-nvim',
+    event = 'VimEnter',
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    config = function()
+      local width = vim.api.nvim_win_get_width(0)
+      require('dashboard').setup({
+        theme = 'hyper',
+        config = {
+          disable_move = true,
+          shortcut = {
+            { icon = '🍡 ', icon_hl = '@variable', desc = 'Files', action = 'Telescope file_browser', key = 'f' },
+            { icon = '🍥 ', icon_hl = '@variable', desc = 'Configuration', action = 'Telescope dotfiles', key = 'd' },
+          },
+        },
+        hide = {
+          statusline = true, -- hide statusline default is true
+          tabline = true, -- hide the tabline
+          winbar = true, -- hide winbar
+        },
+        preview = {
+          command = "chafa -s 60x60 -c full --fg-only --symbols braille --clear",
+          file_path = "$(ls " .. os.getenv("HOME") .. "/.config/nvim/static/*.gif | sort -R)",
+          file_height = 30,
+          file_width = 60,
+        },
+      })
+    end,
+
+  },
+
   -- https://github.com/nvim-tree/nvim-tree.lua
   -- A File Explorer For Neovim Written In Lua
   {

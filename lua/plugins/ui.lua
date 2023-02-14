@@ -216,12 +216,12 @@ return {
   -- https://github.com/bronson/vim-trailing-whitespace
   -- This plugin causes trailing whitespace to be highlighted in red.
   -- To fix the whitespace errors, call :FixWhitespace.
-  {
-    "bronson/vim-trailing-whitespace",
-    config = function()
-      vim.keymap.set("n", "<leader><space>", ":FixWhitespace<CR>", { silent = true, desc = "strip whitespace" })
-    end,
-  },
+  -- {
+  --  "bronson/vim-trailing-whitespace",
+  --  config = function()
+  --    vim.keymap.set("n", "<leader><space>", ":FixWhitespace<CR>", { silent = true, desc = "strip whitespace" })
+  --  end,
+  -- },
 
   -- https://github.com/folke/todo-comments.nvim
   -- todo-comments is a lua plugin for Neovim 0.5 to highlight and search for todo comments like TODO,
