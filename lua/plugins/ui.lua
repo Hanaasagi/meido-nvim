@@ -31,10 +31,11 @@ return {
         transparent_mode = false,
         overrides = {
           String = { italic = false },
-          DiagnosticVirtualTextError = { fg = colors.red, underline = true, bold = true, italic = true },
-          DiagnosticVirtualTextWarn = { fg = colors.yellow, underline = true, bold = true, italic = true },
-          DiagnosticVirtualTextInfo = { fg = colors.blue, underline = true, bold = true, italic = true },
-          DiagnosticVirtualTextHint = { fg = colors.aqua, underline = true, bold = true, italic = true },
+          DiagnosticVirtualTextError = { italic = true },
+          DiagnosticVirtualTextWarn = { italic = true },
+          DiagnosticVirtualTextInfo = { italic = true },
+          DiagnosticVirtualTextHint = { italic = true },
+
         },
       })
       vim.cmd.colorscheme("gruvbox")
