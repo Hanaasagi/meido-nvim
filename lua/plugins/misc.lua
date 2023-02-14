@@ -14,15 +14,19 @@ return {
     event = 'VimEnter',
     dependencies = 'nvim-tree/nvim-web-devicons',
     config = function()
-      local width = vim.api.nvim_win_get_width(0)
       require('dashboard').setup({
         theme = 'hyper',
         config = {
+          packages = { enable = false },
           disable_move = true,
           shortcut = {
-            { icon = '🍡 ', icon_hl = '@variable', desc = 'Files', action = 'Telescope file_browser', key = 'f' },
-            { icon = '🍥 ', icon_hl = '@variable', desc = 'Configuration', action = 'Telescope dotfiles', key = 'd' },
+            { icon = '🍡 ', desc = 'Files', action = 'Telescope file_browser', key = 'F' },
+            { icon = '🍥 ', desc = 'Configuration', action = 'Telescope dotfiles', key = 'C' },
+            { icon = '', desc = '' },
           },
+          project = { limit = 8, icon = '🍣 ', label = 'Projects', action = 'Telescope find_files cwd=' },
+          mru = { limit = 10, icon = '🍤 ', label = 'Recently Files' },
+          footer = {},
         },
         hide = {
           statusline = true, -- hide statusline default is true
@@ -30,10 +34,10 @@ return {
           winbar = true, -- hide winbar
         },
         preview = {
-          command = "chafa -s 60x60 -c full --fg-only --symbols braille --clear",
+          command = "chafa -s 80x80 -c full --fg-only --symbols braille --clear",
           file_path = "$(ls " .. os.getenv("HOME") .. "/.config/nvim/static/*.gif | sort -R)",
           file_height = 30,
-          file_width = 60,
+          file_width = 80,
         },
       })
     end,
