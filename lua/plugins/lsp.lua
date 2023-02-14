@@ -19,7 +19,7 @@ return {
         -- Server List: https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers
         ensure_installed = {
           -- Lua
-          "sumneko_lua",
+          "lua_ls",
           -- Rust
           "rust_analyzer",
           -- Golang
