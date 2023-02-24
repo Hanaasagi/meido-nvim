@@ -4,7 +4,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "ruby,lua,javascript,html,css,xml",
+  pattern = "ruby,lua,javascript,html,css,xml,typescript",
   command = "set tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai",
 })
 

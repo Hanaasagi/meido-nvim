@@ -26,6 +26,7 @@ return {
     build = "make install_jsregexp",
     config = function()
       require('luasnip.loaders.from_vscode').lazy_load()
+      require('luasnip').filetype_extend("typescript", { "javascript" })
     end,
   },
 
@@ -163,6 +164,10 @@ return {
       }
       require('lspconfig')['pyright'].setup { capabilities = capabilities, on_attach = require'virtualtypes'.on_attach }
       require('lspconfig')['rust_analyzer'].setup {
+        capabilities = capabilities,
+        on_attach = require'virtualtypes'.on_attach,
+      }
+      require('lspconfig')['tsserver'].setup {
         capabilities = capabilities,
         on_attach = require'virtualtypes'.on_attach,
       }
