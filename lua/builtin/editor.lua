@@ -1,6 +1,6 @@
 -- When and how to draw the signcolumn. Valid values are:
-vim.wo.signcolumn = "auto:2"
--- vim.wo.signcolumn = "yes:1"
+-- vim.wo.signcolumn = "auto:2"
+vim.wo.signcolumn = "yes:1"
 
 -- All options see ':help option-list'
 local opt = vim.opt
