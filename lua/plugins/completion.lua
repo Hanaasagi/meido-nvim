@@ -15,6 +15,26 @@ return {
 
   { "jubnzv/virtual-types.nvim" },
 
+  -- https://github.com/simrat39/rust-tools.nvim
+  -- A plugin to improve your rust experience in neovim.
+  {
+    "simrat39/rust-tools.nvim",
+    config = function()
+      local rt = require("rust-tools")
+
+      rt.setup({
+        server = {
+          on_attach = function(_, bufnr)
+            -- Hover actions
+            vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+            -- Code action groups
+            vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+          end,
+        },
+      })
+    end,
+  },
+
   -- https://github.com/rafamadriz/friendly-snippets
   -- Snippets collection for a set of different programming languages for faster development.
   { "rafamadriz/friendly-snippets" },
@@ -163,10 +183,10 @@ return {
         capabilities = capabilities,
       }
       require('lspconfig')['pyright'].setup { capabilities = capabilities, on_attach = require'virtualtypes'.on_attach }
-      require('lspconfig')['rust_analyzer'].setup {
+      --[[ require('lspconfig')['rust_analyzer'].setup {
         capabilities = capabilities,
         on_attach = require'virtualtypes'.on_attach,
-      }
+      } ]]
       require('lspconfig')['tsserver'].setup {
         capabilities = capabilities,
         on_attach = require'virtualtypes'.on_attach,
