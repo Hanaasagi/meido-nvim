@@ -13,7 +13,29 @@ return {
   -- docs and completion for the nvim lua API.
   { 'folke/neodev.nvim', lazy = true },
 
-  { "jubnzv/virtual-types.nvim" },
+  -- https://github.com/jubnzv/virtual-types.nvim
+  -- This plugin shows type annotations for functions in virtual text using built-in LSP client.
+  -- { "jubnzv/virtual-types.nvim" },
+
+  -- https://github.com/simrat39/rust-tools.nvim
+  -- A plugin to improve your rust experience in neovim.
+  {
+    "simrat39/rust-tools.nvim",
+    config = function()
+      local rt = require("rust-tools")
+
+      rt.setup({
+        server = {
+          on_attach = function(_, bufnr)
+            -- Hover actions
+            vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+            -- Code action groups
+            vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+          end,
+        },
+      })
+    end,
+  },
 
   -- https://github.com/simrat39/rust-tools.nvim
   -- A plugin to improve your rust experience in neovim.
@@ -155,7 +177,7 @@ return {
           -- { name = 'vsnip' }, -- For vsnip users.
           -- { name = 'ultisnips' }, -- For ultisnips users.
           -- { name = 'snippy' }, -- For snippy users.
-        }, { { name = "path" }, { name = 'buffer' } }),
+        }, { { name = "path", option = { label_trailing_slash = false, trailing_slash = false } }, { name = 'buffer' } }),
       })
 
       -- Set configuration for specific filetype.
@@ -169,10 +191,17 @@ return {
       cmp.setup.cmdline({ '/', '?' }, { mapping = cmp.mapping.preset.cmdline(), sources = { { name = 'buffer' } } })
 
       -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+      -- BUG: There is a bug https://github.com/hrsh7th/cmp-path/issues/40
       cmp.setup.cmdline(':', {
         mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({ { name = 'path' } }, { { name = 'cmdline' } }),
+        sources = cmp.config.sources({
+          { name = 'path', option = { label_trailing_slash = false, trailing_slash = false } },
+        }, { { name = 'cmdline', keyword_length = 2 } }),
       })
+
+      -- local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+      -- local cmp = require('cmp')
+      -- cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
 
       -- Set up lspconfig.
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -182,15 +211,11 @@ return {
         settings = { Lua = { completion = { callSnippet = "Replace" } } },
         capabilities = capabilities,
       }
-      require('lspconfig')['pyright'].setup { capabilities = capabilities, on_attach = require'virtualtypes'.on_attach }
-      --[[ require('lspconfig')['rust_analyzer'].setup {
-        capabilities = capabilities,
-        on_attach = require'virtualtypes'.on_attach,
-      } ]]
-      require('lspconfig')['tsserver'].setup {
-        capabilities = capabilities,
-        on_attach = require'virtualtypes'.on_attach,
-      }
+      require('lspconfig')['pyright'].setup { capabilities = capabilities }
+      -- use rust-tools.nvim to setup
+      -- require('lspconfig')['rust_analyzer'].setup { capabilities = capabilities }
+      require('lspconfig')['tsserver'].setup { capabilities = capabilities }
+      require('lspconfig')['gopls'].setup { capabilities = capabilities }
     end,
   },
 
