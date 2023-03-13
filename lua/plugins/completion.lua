@@ -61,6 +61,7 @@ return {
   { "hrsh7th/cmp-path" },
   { "hrsh7th/cmp-cmdline" },
   { "dmitmel/cmp-cmdline-history" },
+  { "hrsh7th/cmp-nvim-lsp-signature-help" },
 
   -- https://github.com/hrsh7th/cmp-nvim-lsp
   -- nvim-cmp source for neovim's built-in language server client.
@@ -157,7 +158,10 @@ return {
           -- { name = 'vsnip' }, -- For vsnip users.
           -- { name = 'ultisnips' }, -- For ultisnips users.
           -- { name = 'snippy' }, -- For snippy users.
-        }, { { name = "path", option = { label_trailing_slash = false, trailing_slash = false } }, { name = 'buffer' } }),
+        }, { { name = 'nvim_lsp_signature_help' } }, {
+          { name = "path", option = { label_trailing_slash = false, trailing_slash = false } },
+          { name = 'buffer' },
+        }),
       })
 
       -- Set configuration for specific filetype.
