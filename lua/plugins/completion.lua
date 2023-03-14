@@ -61,13 +61,22 @@ return {
   { "hrsh7th/cmp-path" },
   { "hrsh7th/cmp-cmdline" },
   { "dmitmel/cmp-cmdline-history" },
-  { "hrsh7th/cmp-nvim-lsp-signature-help" },
+  -- { "hrsh7th/cmp-nvim-lsp-signature-help" },
 
   -- https://github.com/hrsh7th/cmp-nvim-lsp
   -- nvim-cmp source for neovim's built-in language server client.
   { "hrsh7th/cmp-nvim-lsp" },
 
   { "onsails/lspkind.nvim" },
+
+  -- https://github.com/ray-x/lsp_signature.nvim
+  -- Show function signature when you type
+  {
+    "ray-x/lsp_signature.nvim",
+    config = function()
+      require"lsp_signature".setup()
+    end,
+  },
 
   -- https://github.com/hrsh7th/nvim-cmp
   -- A completion engine plugin for neovim written in Lua.
@@ -152,16 +161,15 @@ return {
 
           -- ['<C-c>'] = cmp.mapping.abort(),
         },
-        sources = cmp.config.sources({
+        sources = cmp.config.sources( -- group
+        {
           { name = 'nvim_lsp' },
           { name = 'luasnip' }, -- For luasnip users.
           -- { name = 'vsnip' }, -- For vsnip users.
           -- { name = 'ultisnips' }, -- For ultisnips users.
           -- { name = 'snippy' }, -- For snippy users.
-        }, { { name = 'nvim_lsp_signature_help' } }, {
-          { name = "path", option = { label_trailing_slash = false, trailing_slash = false } },
-          { name = 'buffer' },
-        }),
+        }, -- { { name = 'nvim_lsp_signature_help' } },
+        { { name = "path", option = { label_trailing_slash = false, trailing_slash = false } }, { name = 'buffer' } }),
       })
 
       -- Set configuration for specific filetype.

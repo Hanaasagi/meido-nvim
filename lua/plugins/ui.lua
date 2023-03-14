@@ -56,7 +56,14 @@ return {
   {
     "levouh/tint.nvim",
     config = function()
-      require("tint").setup({ tint = -60 })
+      require("tint").setup({
+        -- Darken colors, use a positive value to brighten
+        tint = -30,
+        -- Saturation to preserve
+        saturation = 0.38,
+        -- Tint background portions of highlight groups
+        tint_background_colors = false,
+      })
     end,
 
   },
@@ -67,7 +74,7 @@ return {
   {
     "norcalli/nvim-colorizer.lua",
     config = function()
-      require("colorizer").setup({ 'css', 'javascript', 'typescript', 'html' })
+      require("colorizer").setup({ 'css', 'javascript', 'typescript', 'html', 'lua' })
     end,
 
   },
@@ -92,14 +99,12 @@ return {
         group = vim.api.nvim_create_augroup("illuminate_augroup", { clear = true }),
         pattern = "*",
         callback = function()
-          local color = "#2d323e"
+          --[[ local color = "#2d323e"
           vim.api.nvim_set_hl(0, "IlluminatedWordRead", { bg = color, bold = true })
           vim.api.nvim_set_hl(0, "IlluminatedWordText", { bg = color, bold = true })
-          vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { bg = color, bold = true })
+          vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { bg = color, bold = true }) ]]
         end,
       })
-      return
-
     end,
   },
 
@@ -150,7 +155,7 @@ return {
       vim.cmd [[highlight IndentBlanklineIndent5 guifg=#61AFEF gui=nocombine]]
       vim.cmd [[highlight IndentBlanklineIndent6 guifg=#C678DD gui=nocombine]]
 
-      vim.opt.list = true
+      vim.opt.list = false
       -- vim.opt.listchars:append "space:⋅"
       -- vim.opt.listchars:append "eol:↴"
 
@@ -178,6 +183,7 @@ return {
     "nvim-lualine/lualine.nvim",
     dependencies = "nvim-tree/nvim-web-devicons",
     config = function()
+      local idx = 1;
       -- +-------------------------------------------------+
       -- | A | B | C                             X | Y | Z |
       -- +-------------------------------------------------+
@@ -192,7 +198,15 @@ return {
         sections = {
           lualine_a = { { 'mode', separator = { left = '', right = '' }, right_padding = 2 } },
           lualine_b = { 'branch', 'diff', 'diagnostics' },
-          lualine_c = {},
+          lualine_c = {
+            function()
+              if vim.api.nvim_get_mode().mode == "n" then
+                local bufnr = vim.api.nvim_get_current_buf()
+                return vim.b[bufnr].gitsigns_blame_line or ""
+              end
+              return ""
+            end,
+          },
           lualine_x = {},
           lualine_y = { 'encoding', 'fileformat', 'filetype', 'progress' },
           lualine_z = { { 'location', separator = { left = '', right = '' }, left_padding = 2 } },
@@ -253,6 +267,36 @@ return {
     end,
   },
 
+  {
+    "folke/noice.nvim",
+    enabled = true,
+    dependencies = { "MunifTanjim/nui.nvim" },
+    config = function()
+      require("noice").setup({
+        lsp = {
+          progress = { enabled = false },
+          signature = { enabled = false },
+          -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+          override = {
+            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+            ["vim.lsp.util.stylize_markdown"] = true,
+            ["cmp.entry.get_documentation"] = true,
+          },
+        },
+        -- you can enable a preset for easier configuration
+        presets = {
+          bottom_search = false, -- use a classic bottom cmdline for search
+          command_palette = true, -- position the cmdline and popupmenu together
+          long_message_to_split = true, -- long messages will be sent to a split
+          inc_rename = false, -- enables an input dialog for inc-rename.nvim
+          lsp_doc_border = false, -- add a border to hover docs and signature help
+        },
+      })
+
+    end,
+
+  },
+
   -- https://github.com/kevinhwang91/nvim-hlslens
   -- nvim-hlslens helps you better glance at matched information,
   -- seamlessly jump between matched instances.
@@ -308,4 +352,23 @@ return {
   --         })
   --     end,
   -- },
+
+  {
+    "mrjones2014/nvim-ts-rainbow",
+    enabled = true,
+    config = function()
+      require('nvim-treesitter.configs').setup({
+        highlight = {},
+        rainbow = {
+          enable = true,
+          -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
+          extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+          max_file_lines = nil, -- Do not enable for files with more than n lines, int
+          -- table of hex strings
+          colors = {},
+          -- termcolors = {} -- table of colour name strings
+        },
+      })
+    end,
+  },
 }

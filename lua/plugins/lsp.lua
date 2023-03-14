@@ -113,6 +113,16 @@ return {
 
   },
 
+  -- https://github.com/simrat39/symbols-outline.nvim
+  -- A tree like view for symbols in Neovim using the Language Server Protocol. Supports all your favourite languages.
+  -- {
+  --   "simrat39/symbols-outline.nvim",
+  --   config = function()
+  --     require("symbols-outline").setup()
+  --     vim.keymap.set("n", "<leader>jt", "<cmd>:SymbolsOutline<CR>")
+  --   end,
+  -- },
+
   -- https://github.com/glepnir/lspsaga.nvim
   -- A lightweight LSP plugin based on Neovim's built-in LSP with a highly performant UI.
   -- Do make sure that your LSP plugins, like lsp-zero or lsp-config, are *loaded* before loading lspsaga.
@@ -141,6 +151,7 @@ return {
         --  kind = {},
         -- },
         beacon = { enable = false, frequency = 7 },
+        diagnostic = { on_insert = true, on_insert_follow = false },
       })
 
       local map = vim.keymap.set
@@ -158,7 +169,7 @@ return {
       map("n", "<leader>jr", "<cmd>Lspsaga rename<CR>")
 
       -- Rename all occurrences of the hovered word for the selected files
-      -- map("n", "gr", "<cmd>Lspsaga rename ++project<CR>")
+      map("n", "<leader>ja", "<cmd>Lspsaga rename ++project<CR>")
 
       -- Peek definition
       -- You can edit the file containing the definition in the floating window
