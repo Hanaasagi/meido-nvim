@@ -152,6 +152,8 @@ return {
           changedelete = { text = '~' },
           untracked = { text = '' },
         },
+        signcolumn = true,
+        numhl = false,
         current_line_blame = true,
         current_line_blame_opts = {
           virt_text = false,
