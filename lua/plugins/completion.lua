@@ -74,7 +74,14 @@ return {
   {
     "ray-x/lsp_signature.nvim",
     config = function()
-      require"lsp_signature".setup()
+      require"lsp_signature".setup({
+        floating_window = true,
+        -- noice=true,
+        hint_prefix = "💊",
+        -- floating_window_off_x=1,
+        -- floating_window_off_y=-2,
+        -- zindex=999,
+      })
     end,
   },
 
