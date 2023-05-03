@@ -215,6 +215,7 @@ return {
       -- require('lspconfig')['rust_analyzer'].setup { capabilities = capabilities }
       require('lspconfig')['tsserver'].setup { capabilities = capabilities }
       require('lspconfig')['gopls'].setup { capabilities = capabilities }
+      require('lspconfig')['zls'].setup { capabilities = capabilities }
     end,
   },
 

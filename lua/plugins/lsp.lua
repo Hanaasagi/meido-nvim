@@ -32,6 +32,8 @@ return {
           "eslint",
           -- Tailwind CSS
           "tailwindcss",
+          -- zig
+          "zls",
         },
         automatic_installation = true,
       })
@@ -93,6 +95,8 @@ return {
           null_ls.builtins.formatting.black,
           null_ls.builtins.formatting.prettier,
           null_ls.builtins.formatting.rustfmt,
+          null_ls.builtins.formatting.xmlformat,
+          null_ls.builtins.formatting.zigfmt,
         },
         on_attach = function(client, bufnr)
           if client.supports_method("textDocument/formatting") then
