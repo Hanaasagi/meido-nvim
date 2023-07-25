@@ -35,7 +35,6 @@ return {
           DiagnosticVirtualTextWarn = { italic = true },
           DiagnosticVirtualTextInfo = { italic = true },
           DiagnosticVirtualTextHint = { italic = true },
-
         },
       })
       vim.cmd.colorscheme("gruvbox")
@@ -63,6 +62,7 @@ return {
         saturation = 0.38,
         -- Tint background portions of highlight groups
         tint_background_colors = false,
+        highlight_ignore_patterns = { "DiagnosticVirtualText*" },
       })
     end,
 
@@ -204,11 +204,18 @@ return {
                 local bufnr = vim.api.nvim_get_current_buf()
                 return vim.b[bufnr].gitsigns_blame_line or ""
               end
+              -- if vim.api.nvim_get_mode().mode == "i" then
+              --   if not pcall(require, 'lsp_signature') then
+              --     return ""
+              --   end
+              --   local sig = require("lsp_signature").status_line(20)
+              --   return sig.label .. "🐼" .. sig.hint
+              -- end
               return ""
             end,
           },
           lualine_x = {},
-          lualine_y = { 'encoding', 'fileformat', 'filetype', 'progress' },
+          lualine_y = { 'encoding', { 'fileformat', icons_enabled = false }, 'filetype', 'progress' },
           lualine_z = { { 'location', separator = { left = '', right = '' }, left_padding = 2 } },
         },
         -- only work in non global statusline
@@ -291,6 +298,8 @@ return {
           inc_rename = false, -- enables an input dialog for inc-rename.nvim
           lsp_doc_border = false, -- add a border to hover docs and signature help
         },
+
+        views = { cmdline_popup = { position = { row = "40%", col = "50%" } } },
       })
 
     end,
@@ -324,51 +333,43 @@ return {
     end,
   },
 
-  -- TODO it's not work
-  -- {
-  --     "kien/rainbow_parentheses.vim",
-  --     config = function()
-  --         group = vim.api.nvim_create_augroup("rainbow_augroup",
-  --                                             { clear = true })
-  --         vim.api.nvim_create_autocmd("VimEnter", {
-  --             group = group,
-  --             pattern = "*",
-  --             command = "RainbowParenthesesToggle",
-  --         })
-  --         vim.api.nvim_create_autocmd("Syntax", {
-  --             group = group,
-  --             pattern = "*",
-  --             command = "RainbowParenthesesLoadRound",
-  --         })
-  --         vim.api.nvim_create_autocmd("Syntax", {
-  --             group = group,
-  --             pattern = "*",
-  --             command = "RainbowParenthesesLoadSquare",
-  --         })
-  --         vim.api.nvim_create_autocmd("Syntax", {
-  --             group = group,
-  --             pattern = "*",
-  --             command = "RainbowParenthesesLoadBraces",
-  --         })
-  --     end,
-  -- },
-
   {
-    "mrjones2014/nvim-ts-rainbow",
-    enabled = true,
+    "HiPhish/nvim-ts-rainbow2",
     config = function()
+      vim.cmd [[highlight TSRainbowRed guifg=#E06C75 gui=nocombine]]
+      vim.cmd [[highlight TSRainbowYellow guifg=#E5C07B gui=nocombine]]
+      vim.cmd [[highlight TSRainbowGreen  guifg=#98C379 gui=nocombine]]
+      vim.cmd [[highlight TSRainbowBlue guifg=#56B6C2 gui=nocombine]]
+      vim.cmd [[highlight TSRainbowCyan guifg=#61AFEF gui=nocombine]]
+      vim.cmd [[highlight TSRainbowViolet guifg=#C678DD gui=nocombine]]
       require('nvim-treesitter.configs').setup({
-        highlight = {},
         rainbow = {
           enable = true,
-          -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
-          extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-          max_file_lines = nil, -- Do not enable for files with more than n lines, int
-          -- table of hex strings
-          colors = {},
-          -- termcolors = {} -- table of colour name strings
+          -- list of languages you want to disable the plugin for
+          disable = { 'jsx', 'cpp' },
+          -- Which query to use for finding delimiters
+          query = 'rainbow-parens',
+          -- Highlight the entire buffer all at once
+          strategy = require('ts-rainbow').strategy.global,
+          hlgroups = {
+            'TSRainbowRed',
+            'TSRainbowYellow',
+            'TSRainbowGreen',
+            'TSRainbowBlue',
+            'TSRainbowCyan',
+            -- 'TSRainbowOrange',
+            'TSRainbowViolet',
+          },
         },
       })
     end,
   },
+
+  -- {
+  --   "echasnovski/mini.animate",
+  --   enabled = false,
+  --   config = function()
+  --     require('mini.animate').setup()
+  --   end,
+  -- },
 }
