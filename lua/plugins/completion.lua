@@ -216,6 +216,7 @@ return {
       require('lspconfig')['tsserver'].setup { capabilities = capabilities }
       require('lspconfig')['gopls'].setup { capabilities = capabilities }
       require('lspconfig')['zls'].setup { capabilities = capabilities }
+      require('lspconfig')['clangd'].setup { capabilities = capabilities }
     end,
   },
 

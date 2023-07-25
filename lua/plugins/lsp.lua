@@ -34,6 +34,8 @@ return {
           "tailwindcss",
           -- zig
           "zls",
+          -- clang
+          "clangd",
         },
         automatic_installation = true,
       })
@@ -240,4 +242,5 @@ return {
       -- map({ "n", "t" }, "<C-c>", "<cmd>Lspsaga term_toggle<CR>")
     end,
   },
+
 }
