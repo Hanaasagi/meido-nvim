@@ -49,6 +49,12 @@ return {
     config = function()
       require('luasnip.loaders.from_vscode').lazy_load()
       require('luasnip').filetype_extend("typescript", { "javascript" })
+      local map = vim.keymap.set
+      local opts = { noremap = true, silent = true }
+      map("i", "<C-J>", "<CMD>lua require'luasnip'.jump(1)<CR>", opts)
+      map("s", "<c-J>", "<CMD>lua require'luasnip'.jump(1)<CR>", opts)
+      map("i", "<c-K>", "<CMD>lua require'luasnip'.jump(-1)<CR>", opts)
+      map("s", "<c-K>", "<CMD>lua require'luasnip'.jump(-1)<CR>", opts)
     end,
   },
 
