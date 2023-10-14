@@ -7,39 +7,6 @@ return {
     end,
 
   },
-  -- https://github.com/ellisonleao/gruvbox.nvim
-  {
-    "ellisonleao/gruvbox.nvim",
-    config = function()
-      local config = require("gruvbox").config
-      local colors = require("gruvbox.palette").get_base_colors(vim.o.background, config.contrast)
-
-      require("gruvbox").setup({
-        undercurl = true,
-        underline = true,
-        bold = true,
-        italic = true,
-        strikethrough = true,
-        invert_selection = false,
-        invert_signs = false,
-        invert_tabline = false,
-        invert_intend_guides = false,
-        inverse = true, -- invert background for search, diffs, statuslines and errors
-        contrast = "", -- can be "hard", "soft" or empty string
-        palette_overrides = {},
-        dim_inactive = false,
-        transparent_mode = false,
-        overrides = {
-          String = { italic = false },
-          DiagnosticVirtualTextError = { italic = true },
-          DiagnosticVirtualTextWarn = { italic = true },
-          DiagnosticVirtualTextInfo = { italic = true },
-          DiagnosticVirtualTextHint = { italic = true },
-        },
-      })
-      vim.cmd.colorscheme("gruvbox")
-    end,
-  },
 
   -- https://github.com/nvim-zh/colorful-winsep.nvim
   -- configurable window separtor
@@ -146,33 +113,37 @@ return {
   -- This plugin adds indentation guides to all lines (including empty lines).
   {
     "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
     config = function()
       vim.opt.termguicolors = true
-      vim.cmd [[highlight IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine]]
-      vim.cmd [[highlight IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine]]
-      vim.cmd [[highlight IndentBlanklineIndent3 guifg=#98C379 gui=nocombine]]
-      vim.cmd [[highlight IndentBlanklineIndent4 guifg=#56B6C2 gui=nocombine]]
-      vim.cmd [[highlight IndentBlanklineIndent5 guifg=#61AFEF gui=nocombine]]
-      vim.cmd [[highlight IndentBlanklineIndent6 guifg=#C678DD gui=nocombine]]
-
       vim.opt.list = false
       -- vim.opt.listchars:append "space:⋅"
       -- vim.opt.listchars:append "eol:↴"
 
-      require("indent_blankline").setup {
-        char = "¦",
-        space_char_blankline = " ",
-        show_current_context = true,
-        show_current_context_start = true,
-        char_highlight_list = {
-          "IndentBlanklineIndent1",
-          "IndentBlanklineIndent2",
-          "IndentBlanklineIndent3",
-          "IndentBlanklineIndent4",
-          "IndentBlanklineIndent5",
-          "IndentBlanklineIndent6",
-        },
+      local highlight = {
+        "IndentBlanklineIndent1",
+        "IndentBlanklineIndent2",
+        "IndentBlanklineIndent3",
+        "IndentBlanklineIndent4",
+        "IndentBlanklineIndent5",
+        "IndentBlanklineIndent6",
       }
+
+      local hooks = require "ibl.hooks"
+      hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+        vim.api.nvim_set_hl(0, "IndentBlanklineIndent1", { fg = "#E06C75" })
+        vim.api.nvim_set_hl(0, "IndentBlanklineIndent2", { fg = "#E5C07B" })
+        vim.api.nvim_set_hl(0, "IndentBlanklineIndent3", { fg = "#98C379" })
+        vim.api.nvim_set_hl(0, "IndentBlanklineIndent4", { fg = "#56B6C2" })
+        vim.api.nvim_set_hl(0, "IndentBlanklineIndent5", { fg = "#61AFEF" })
+        vim.api.nvim_set_hl(0, "IndentBlanklineIndent6", { fg = "#C678DD" })
+      end)
+
+      require("ibl").setup({
+        indent = { char = "¦", highlight = highlight },
+        whitespace = { highlight = highlight, remove_blankline_trail = false },
+        scope = { enabled = true, show_start = true },
+      })
     end,
 
   },
