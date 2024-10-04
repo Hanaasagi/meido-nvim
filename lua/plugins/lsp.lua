@@ -27,7 +27,8 @@ return {
           -- Python
           "pyright",
           -- Typescript
-          "tsserver",
+          -- "tsserver",
+          "ts_ls",
           -- ESLint
           "eslint",
           -- Tailwind CSS

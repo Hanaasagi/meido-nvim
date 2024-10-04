@@ -44,6 +44,8 @@ return {
   -- https://github.com/L3MON4D3/LuaSnip
   {
     "L3MON4D3/LuaSnip",
+	  -- follow latest release.
+    version = "v2.*",
     -- install jsregexp (optional!).
     build = "make install_jsregexp",
     config = function()
@@ -219,7 +221,8 @@ return {
       require('lspconfig')['pyright'].setup { capabilities = capabilities }
       -- use rust-tools.nvim to setup
       -- require('lspconfig')['rust_analyzer'].setup { capabilities = capabilities }
-      require('lspconfig')['tsserver'].setup { capabilities = capabilities }
+      -- require('lspconfig')['tsserver'].setup { capabilities = capabilities }
+      require('lspconfig')['ts_ls'].setup { capabilities = capabilities }
       require('lspconfig')['gopls'].setup { capabilities = capabilities }
       require('lspconfig')['zls'].setup { capabilities = capabilities }
       require('lspconfig')['clangd'].setup { capabilities = capabilities }
