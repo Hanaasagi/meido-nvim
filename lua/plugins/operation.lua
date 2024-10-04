@@ -34,7 +34,7 @@ return {
   {
     "JoosepAlviste/nvim-ts-context-commentstring",
     config = function()
-      require'ts_context_commentstring'.setup {  enable = true, enable_autocmd = false }
+      require'ts_context_commentstring'.setup { enable = true, enable_autocmd = false }
     end,
 
   },
@@ -161,7 +161,7 @@ return {
           delay = 100,
           ignore_whitespace = false,
         },
-        current_line_blame_formatter_opts = { relative_time = false },
+        current_line_blame_formatter = '<author>, <author_time:%R> - <summary>',
       })
 
       -- https://github.com/lewis6991/gitsigns.nvim/issues/430
