@@ -34,7 +34,7 @@ return {
   {
     "JoosepAlviste/nvim-ts-context-commentstring",
     config = function()
-      require'nvim-treesitter.configs'.setup { context_commentstring = { enable = true, enable_autocmd = false } }
+      require'ts_context_commentstring'.setup {  enable = true, enable_autocmd = false }
     end,
 
   },
