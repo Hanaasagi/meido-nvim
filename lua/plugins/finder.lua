@@ -97,7 +97,7 @@ return {
             -- }
           },
         },
-
+        pickers = { colorscheme = { enable_preview = true } },
       })
 
       local builtin = require('telescope.builtin')

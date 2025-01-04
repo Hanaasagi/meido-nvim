@@ -3,7 +3,7 @@ return {
   {
     "folke/tokyonight.nvim",
     config = function()
-      -- vim.cmd.colorscheme("tokyonight-moon")
+      vim.cmd.colorscheme("tokyonight-moon")
     end,
 
   },
@@ -306,6 +306,7 @@ return {
 
   {
     "HiPhish/nvim-ts-rainbow2",
+    enabled = false,
     config = function()
       vim.cmd [[highlight TSRainbowRed guifg=#E06C75 gui=nocombine]]
       vim.cmd [[highlight TSRainbowYellow guifg=#E5C07B gui=nocombine]]
