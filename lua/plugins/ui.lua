@@ -2,11 +2,18 @@ return {
   -- https://github.com/folke/tokyonight.nvim
   {
     "folke/tokyonight.nvim",
+    priority = 1000,
+
     config = function()
       vim.cmd.colorscheme("tokyonight-moon")
     end,
 
   },
+
+  -- https://github.com/catppuccin/nvim
+  { "catppuccin/nvim", name = "catppuccin", priority = -1 },
+  -- https://github.com/rebelot/kanagawa.nvim
+  { "rebelot/kanagawa.nvim", name = "kanagawa", priority = -1 },
 
   -- https://github.com/nvim-zh/colorful-winsep.nvim
   -- configurable window separtor
