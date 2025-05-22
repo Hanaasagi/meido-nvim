@@ -8,7 +8,6 @@ return {
     config = function()
       require("mason").setup()
     end,
-
   },
   -- https://github.com/williamboman/mason-lspconfig.nvim
   -- mason-lspconfig bridges mason.nvim with the lspconfig plugin - making it easier to use both plugins together.
@@ -56,7 +55,7 @@ return {
         -- A list of sources to install if they're not already installed.
         -- This setting has no relation with the `automatic_installation` setting.
         ensure_installed = {
-          'isort',
+          "isort",
           -- 'mypy',
         },
         -- Run `require("null-ls").setup`.
@@ -77,8 +76,35 @@ return {
   },
 
   {
-    "jose-elias-alvarez/null-ls.nvim",
-    dependencies = { { "nvim-lua/plenary.nvim" } },
+
+    "stevearc/conform.nvim",
+    opts = {},
+    config = function()
+      require("conform").setup({
+        formatters_by_ft = {
+          lua = { "stylua" },
+          -- Conform will run multiple formatters sequentially
+          -- python = { "isort", "black" },
+          -- You can customize some of the format options for the filetype (:help conform.format)
+          rust = { "rustfmt", lsp_format = "fallback" },
+          go = { "gofmt" },
+          -- Conform will run the first available formatter
+          -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        },
+      })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        pattern = "*",
+        callback = function(args)
+          require("conform").format({ bufnr = args.buf })
+        end,
+      })
+    end,
+  },
+
+  {
+    -- "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "nvimtools/none-ls-extras.nvim" },
     config = function()
       local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
       local null_ls = require("null-ls")
@@ -88,7 +114,7 @@ return {
           null_ls.builtins.diagnostics.staticcheck,
           -- null_ls.builtins.diagnostics.semgrep,
           null_ls.builtins.diagnostics.stylelint,
-          null_ls.builtins.diagnostics.shellcheck,
+          -- null_ls.builtins.diagnostics.shellcheck,
           -- null_ls.builtins.diagnostics.pydocstyle,
           -- null_ls.builtins.diagnostics.pylint.with({
           --    diagnostics_postprocess = function(diagnostic)
@@ -97,28 +123,27 @@ return {
           -- }),
           null_ls.builtins.formatting.black,
           null_ls.builtins.formatting.prettier,
-          null_ls.builtins.formatting.rustfmt,
-          null_ls.builtins.formatting.xmlformat,
-          null_ls.builtins.formatting.zigfmt,
+          -- null_ls.builtins.formatting.rustfmt,
+          -- null_ls.builtins.formatting.zigfmt,
+          -- null_ls.builtins.formatting.xmlformat,
           null_ls.builtins.formatting.gofmt,
         },
         on_attach = function(client, bufnr)
-          if client.supports_method("textDocument/formatting") then
-            vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              group = augroup,
-              buffer = bufnr,
-              callback = function()
-                vim.lsp.buf.format({ bufnr = bufnr })
-              end,
-            })
-          end
+          -- if client.supports_method("textDocument/formatting") then
+          --   vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+          --   vim.api.nvim_create_autocmd("BufWritePre", {
+          --     group = augroup,
+          --     buffer = bufnr,
+          --     callback = function()
+          --       vim.lsp.buf.format({ bufnr = bufnr })
+          --     end,
+          --   })
+          -- end
         end,
       })
 
       -- require('mason-null-ls').setup_handlers() -- If `automatic_setup` is true.
     end,
-
   },
 
   -- https://github.com/simrat39/symbols-outline.nvim
@@ -244,5 +269,4 @@ return {
       -- map({ "n", "t" }, "<C-c>", "<cmd>Lspsaga term_toggle<CR>")
     end,
   },
-
 }

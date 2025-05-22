@@ -5,14 +5,20 @@ return {
     lazy = false,
     version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
     opts = {
-      provider = "deepseek",
-      auto_suggestions_provider = "deepseek",
+      provider = "claude_openrouter",
+      auto_suggestions_provider = "claude_openrouter",
       vendors = {
         deepseek = {
           __inherited_from = "openai",
           api_key_name = "DEEPSEEK_API_KEY",
           endpoint = "https://api.deepseek.com",
           model = "deepseek-coder",
+        },
+        claude_openrouter = {
+          __inherited_from = "openai",
+          api_key_name = "OPENROUTER_API_KEY",
+          endpoint = "https://openrouter.ai/api/v1",
+          model = "anthropic/claude-3.7-sonnet",
         },
       },
 
@@ -54,7 +60,7 @@ return {
       },
       {
         -- Make sure to set this up properly if you have lazy=true
-        'MeanderingProgrammer/render-markdown.nvim',
+        "MeanderingProgrammer/render-markdown.nvim",
         opts = { file_types = { "markdown", "Avante" } },
         ft = { "markdown", "Avante" },
       },

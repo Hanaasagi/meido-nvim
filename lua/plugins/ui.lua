@@ -146,9 +146,9 @@ return {
         vim.api.nvim_set_hl(0, "IndentBlanklineIndent6", { fg = "#C678DD" })
       end)
 
-      -- hooks.register(hooks.type.ACTIVE, function(bufnr)
-      --   return vim.opt_local.filetype:get() == "python"
-      -- end)
+      hooks.register(hooks.type.ACTIVE, function(bufnr)
+        return vim.opt_local.filetype:get() ~= "go"
+      end)
 
       require("ibl").setup({
         indent = { char = "¦", highlight = highlight },
@@ -172,7 +172,7 @@ return {
       require("lualine").setup({
         options = {
           icons_enabled = true,
-          theme = 'onedark',
+          theme = 'tokyonight-moon',
           component_separators = '|',
           section_separators = { left = '', right = '' },
           globalstatus = true,

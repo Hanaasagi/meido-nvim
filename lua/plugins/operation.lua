@@ -7,25 +7,47 @@ return {
   -- making every jump target in your document reachable in a few keystrokes.
   {
     "phaazon/hop.nvim",
+    enable = false,
     config = function()
-      local hop = require('hop')
-      local directions = require('hop.hint').HintDirection
-      vim.keymap.set('', 'f', function()
+      local hop = require("hop")
+      local directions = require("hop.hint").HintDirection
+      vim.keymap.set("", "f", function()
         hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = true })
       end, { remap = true })
-      vim.keymap.set('', 'F', function()
+      vim.keymap.set("", "F", function()
         hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = true })
       end, { remap = true })
-      vim.keymap.set('', 't', function()
+      vim.keymap.set("", "t", function()
         hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })
       end, { remap = true })
-      vim.keymap.set('', 'T', function()
+      vim.keymap.set("", "T", function()
         hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })
       end, { remap = true })
 
-      require('hop').setup()
-
+      require("hop").setup()
     end,
+  },
+
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    ---@type Flash.Config
+    opts = {
+
+      modes = {
+        char = {
+          jump_labels = true,
+        },
+      },
+    -- stylua: ignore
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+    },
+    },
   },
 
   -- https://github.com/JoosepAlviste/nvim-ts-context-commentstring
@@ -34,32 +56,31 @@ return {
   {
     "JoosepAlviste/nvim-ts-context-commentstring",
     config = function()
-      require'ts_context_commentstring'.setup { enable = true, enable_autocmd = false }
+      require("ts_context_commentstring").setup({ enable = true, enable_autocmd = false })
     end,
-
   },
 
   -- https://github.com/numToStr/Comment.nvim
   -- Smart and Powerful commenting plugin for neovim
   {
-    'numToStr/Comment.nvim',
+    "numToStr/Comment.nvim",
     config = function()
-      require('Comment').setup({
-        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
-        ignore = '^$',
+      require("Comment").setup({
+        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+        ignore = "^$",
         toggler = {
           -- Line-comment toggle keymap
-          line = '<leader>cc',
+          line = "<leader>cc",
           -- Block-comment toggle keymap
-          block = '<leader>cb',
+          block = "<leader>cb",
         },
 
         -- LHS of operator-pending mappings in NORMAL and VISUAL mode
         opleader = {
           -- Line-comment keymap
-          line = '<leader>cc',
+          line = "<leader>cc",
           -- Block-comment keymap
-          block = '<leader>cb',
+          block = "<leader>cb",
         },
       })
     end,
@@ -95,7 +116,6 @@ return {
       vim.keymap.set("n", "<leader>a", "<Plug>(EasyAlign)")
       vim.keymap.set("v", "<leader>a", "<Plug>(EasyAlign)")
     end,
-
   },
 
   -- https://github.com/Hanaasagi/remote-copy.vim
@@ -105,8 +125,12 @@ return {
   {
     "Hanaasagi/remote-copy.vim",
     config = function()
-      vim.keymap.set("v", "<C-c>", [[y:call remote_copy#copy2clipboard(getreg('"'))<CR>]],
-                     { silent = true, noremap = true, desc = "copy text" })
+      vim.keymap.set(
+        "v",
+        "<C-c>",
+        [[y:call remote_copy#copy2clipboard(getreg('"'))<CR>]],
+        { silent = true, noremap = true, desc = "copy text" }
+      )
     end,
   },
 
@@ -118,8 +142,12 @@ return {
       vim.api.nvim_create_user_command("Inflection", "call inflection#inflect_current_word()", {})
 
       vim.api.nvim_create_user_command("InflectionVisual", "call inflection#inflect_visaul_block()", { range = 0 })
-      vim.keymap.set("i", "<C-l>", [[<ESC>:call inflection#inflect_current_word_in_insert_mode()<CR>]],
-                     { silent = false, noremap = true, desc = "inflect a word" })
+      vim.keymap.set(
+        "i",
+        "<C-l>",
+        [[<ESC>:call inflection#inflect_current_word_in_insert_mode()<CR>]],
+        { silent = false, noremap = true, desc = "inflect a word" }
+      )
     end,
   },
 
@@ -130,38 +158,37 @@ return {
   {
     "ggandor/leap.nvim",
     config = function()
-      local leap = require('leap')
+      local leap = require("leap")
       leap.set_default_keymaps()
     end,
-
   },
 
   {
-    'lewis6991/gitsigns.nvim',
+    "lewis6991/gitsigns.nvim",
     lazy = true,
-    dependencies = { 'nvim-lua/plenary.nvim', lazy = true },
-    event = { 'BufRead', 'BufNewFile' },
+    dependencies = { "nvim-lua/plenary.nvim", lazy = true },
+    event = { "BufRead", "BufNewFile" },
     config = function()
       local gitsigns = require("gitsigns")
       gitsigns.setup({
         signs = {
-          add = { text = '+' },
-          change = { text = '~' },
-          delete = { text = '_' },
-          topdelete = { text = '‾' },
-          changedelete = { text = '~' },
-          untracked = { text = '' },
+          add = { text = "+" },
+          change = { text = "~" },
+          delete = { text = "_" },
+          topdelete = { text = "‾" },
+          changedelete = { text = "~" },
+          untracked = { text = "" },
         },
         signcolumn = true,
         numhl = false,
         current_line_blame = true,
         current_line_blame_opts = {
           virt_text = false,
-          virt_text_pos = 'right_align', -- 'eol' | 'overlay' | 'right_align'
+          virt_text_pos = "right_align", -- 'eol' | 'overlay' | 'right_align'
           delay = 100,
           ignore_whitespace = false,
         },
-        current_line_blame_formatter = '<author>, <author_time:%R> - <summary>',
+        current_line_blame_formatter = "<author>, <author_time:%R> - <summary>",
       })
 
       -- https://github.com/lewis6991/gitsigns.nvim/issues/430
@@ -173,9 +200,9 @@ return {
   -- NeoZoom.lua aims to help you focus and maybe protect your left-rotated neck.
   {
 
-    'nyngwang/NeoZoom.lua',
+    "nyngwang/NeoZoom.lua",
     config = function()
-      require('neo-zoom').setup {
+      require("neo-zoom").setup({
         -- top_ratio = 0,
         -- left_ratio = 0.225,
         -- width_ratio = 0.775,
@@ -183,10 +210,10 @@ return {
         -- border = 'double',
         -- disable_by_cursor = true, -- zoom-out/unfocus when you click anywhere else.
         -- exclude_filetypes = { 'lspinfo', 'mason', 'lazy', 'fzf', 'qf' },
-        exclude_buftypes = { 'terminal' },
+        exclude_buftypes = { "terminal" },
         presets = {
           {
-            filetypes = { 'dapui_.*', 'dap-repl' },
+            filetypes = { "dapui_.*", "dap-repl" },
             config = { top_ratio = 0.25, left_ratio = 0.6, width_ratio = 0.4, height_ratio = 0.65 },
             callbacks = {
               function()
@@ -203,12 +230,11 @@ return {
         --   exclude_filetypes = {},
         --   exclude_buftypes = {},
         -- },
-      }
-      vim.keymap.set('n', '<leader>z', function()
-        vim.cmd('NeoZoomToggle')
+      })
+      vim.keymap.set("n", "<leader>z", function()
+        vim.cmd("NeoZoomToggle")
       end, { silent = true, nowait = true })
     end,
-
   },
 
   -- https://github.com/cappyzawa/trim.nvim
@@ -216,7 +242,7 @@ return {
   {
     "cappyzawa/trim.nvim",
     config = function()
-      require('trim').setup({
+      require("trim").setup({
         -- if you want to ignore markdown file.
         -- you can specify filetypes.
         ft_blocklist = { "markdown" },
