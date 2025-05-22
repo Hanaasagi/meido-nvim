@@ -6,7 +6,7 @@ vim.wo.signcolumn = "yes:1"
 local opt = vim.opt
 
 -- GUI: settings for cursor shape and blinking
-opt.guicursor = 'n-v-c-i:block'
+opt.guicursor = "n-v-c-i:block"
 opt.termguicolors = true
 -- print the line number in front of each line
 opt.number = true
@@ -20,7 +20,7 @@ opt.ruler = true
 -- TODO au InsertLeave * set nopaste
 -- TODO set backspace=2
 
-opt.encoding = 'utf-8'
+opt.encoding = "utf-8"
 
 -- tells when last window has status lines
 opt.laststatus = 2
@@ -62,14 +62,14 @@ opt.mouse = nil
 
 -- set to display all folds open
 opt.foldenable = true
-opt.foldmethod = 'indent'
+opt.foldmethod = "indent"
 -- close folds with a level higher than this
 opt.foldlevel = 99
 
 -- use menu for command line completion
 opt.wildmenu = true
 -- mode for 'wildchar' command-line expansion
-opt.wildmode = 'longest,list,full'
+opt.wildmode = "longest,list,full"
 -- opt.background='dark'
 
 -- new window from split is below the current one
@@ -99,7 +99,6 @@ vim.api.nvim_create_autocmd("InsertLeave", { pattern = "*", command = ":set rela
 vim.api.nvim_create_autocmd("BufReadPost", {
   pattern = "*",
   command = [[if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif]],
-
 })
 
 -- nvim diagnostic settings

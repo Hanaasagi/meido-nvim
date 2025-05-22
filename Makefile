@@ -1,4 +1,4 @@
 format:
-	find . -name "*.lua" | xargs lua-format -i
+	stylua .
 
 .PHONY: .format

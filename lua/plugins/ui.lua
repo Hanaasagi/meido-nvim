@@ -7,7 +7,6 @@ return {
     config = function()
       vim.cmd.colorscheme("tokyonight-moon")
     end,
-
   },
 
   -- https://github.com/catppuccin/nvim
@@ -20,7 +19,7 @@ return {
   {
     "nvim-zh/colorful-winsep.nvim",
     config = function()
-      require('colorful-winsep').setup()
+      require("colorful-winsep").setup()
     end,
   },
 
@@ -39,7 +38,6 @@ return {
         highlight_ignore_patterns = { "DiagnosticVirtualText*" },
       })
     end,
-
   },
 
   -- https://github.com/norcalli/nvim-colorizer.lua
@@ -48,9 +46,8 @@ return {
   {
     "norcalli/nvim-colorizer.lua",
     config = function()
-      require("colorizer").setup({ 'css', 'javascript', 'typescript', 'html', 'lua' })
+      require("colorizer").setup({ "css", "javascript", "typescript", "html", "lua" })
     end,
-
   },
 
   -- https://github.com/nacro90/numb.nvim
@@ -58,7 +55,7 @@ return {
   {
     "nacro90/numb.nvim",
     config = function()
-      require('numb').setup()
+      require("numb").setup()
     end,
   },
 
@@ -67,7 +64,7 @@ return {
   -- Tree-sitter, or regex matching.
   {
     "RRethy/vim-illuminate",
-    event = 'BufRead',
+    event = "BufRead",
     config = function()
       vim.api.nvim_create_autocmd("VimEnter", {
         group = vim.api.nvim_create_augroup("illuminate_augroup", { clear = true }),
@@ -94,7 +91,7 @@ return {
   {
     "gen740/SmoothCursor.nvim",
     config = function()
-      require('smoothcursor').setup({
+      require("smoothcursor").setup({
         fancy = { head = { cursor = "▶", texthl = "SmoothCursor", linehl = nil }, enable = true },
         -- animate if threshold lines jump
         threshold = 10,
@@ -102,7 +99,6 @@ return {
         disable_float_win = true,
       })
     end,
-
   },
 
   -- https://github.com/akinsho/bufferline.nvim
@@ -136,7 +132,7 @@ return {
         "IndentBlanklineIndent6",
       }
 
-      local hooks = require "ibl.hooks"
+      local hooks = require("ibl.hooks")
       hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
         vim.api.nvim_set_hl(0, "IndentBlanklineIndent1", { fg = "#E06C75" })
         vim.api.nvim_set_hl(0, "IndentBlanklineIndent2", { fg = "#E5C07B" })
@@ -156,7 +152,6 @@ return {
         scope = { enabled = true, show_start = true },
       })
     end,
-
   },
 
   -- https://github.com/nvim-lualine/lualine.nvim
@@ -165,21 +160,21 @@ return {
     "nvim-lualine/lualine.nvim",
     dependencies = "nvim-tree/nvim-web-devicons",
     config = function()
-      local idx = 1;
+      local idx = 1
       -- +-------------------------------------------------+
       -- | A | B | C                             X | Y | Z |
       -- +-------------------------------------------------+
       require("lualine").setup({
         options = {
           icons_enabled = true,
-          theme = 'tokyonight-moon',
-          component_separators = '|',
-          section_separators = { left = '', right = '' },
+          theme = "tokyonight-moon",
+          component_separators = "|",
+          section_separators = { left = "", right = "" },
           globalstatus = true,
         },
         sections = {
-          lualine_a = { { 'mode', separator = { left = '', right = '' }, right_padding = 2 } },
-          lualine_b = { 'branch', 'diff', 'diagnostics' },
+          lualine_a = { { "mode", separator = { left = "", right = "" }, right_padding = 2 } },
+          lualine_b = { "branch", "diff", "diagnostics" },
           lualine_c = {
             function()
               if vim.api.nvim_get_mode().mode == "n" then
@@ -197,8 +192,8 @@ return {
             end,
           },
           lualine_x = {},
-          lualine_y = { 'encoding', { 'fileformat', icons_enabled = false }, 'filetype', 'progress' },
-          lualine_z = { { 'location', separator = { left = '', right = '' }, left_padding = 2 } },
+          lualine_y = { "encoding", { "fileformat", icons_enabled = false }, "filetype", "progress" },
+          lualine_z = { { "location", separator = { left = "", right = "" }, left_padding = 2 } },
         },
         -- only work in non global statusline
         inactive_sections = {},
@@ -210,11 +205,10 @@ return {
 
   {
     "j-hui/fidget.nvim",
-    event = 'BufRead',
+    event = "BufRead",
     config = function()
       require("fidget").setup()
     end,
-
   },
 
   -- https://github.com/bronson/vim-trailing-whitespace
@@ -243,7 +237,7 @@ return {
   {
     "karb94/neoscroll.nvim",
     config = function()
-      require('neoscroll').setup()
+      require("neoscroll").setup()
     end,
   },
 
@@ -283,9 +277,7 @@ return {
 
         views = { cmdline_popup = { position = { row = "40%", col = "50%" } } },
       })
-
     end,
-
   },
 
   -- https://github.com/kevinhwang91/nvim-hlslens
@@ -304,14 +296,14 @@ return {
 
       local kopts = { noremap = true, silent = true }
 
-      map('n', 'n', [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]], kopts)
-      map('n', 'N', [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]], kopts)
-      map('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      map('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      map('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      map('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      map("n", "n", [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]], kopts)
+      map("n", "N", [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]], kopts)
+      map("n", "*", [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      map("n", "#", [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      map("n", "g*", [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      map("n", "g#", [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
 
-      map('n', '<leader>o', '<Cmd>noh<CR>', kopts)
+      map("n", "<leader>o", "<Cmd>noh<CR>", kopts)
     end,
   },
 
@@ -319,29 +311,29 @@ return {
     "HiPhish/nvim-ts-rainbow2",
     enabled = false,
     config = function()
-      vim.cmd [[highlight TSRainbowRed guifg=#E06C75 gui=nocombine]]
-      vim.cmd [[highlight TSRainbowYellow guifg=#E5C07B gui=nocombine]]
-      vim.cmd [[highlight TSRainbowGreen  guifg=#98C379 gui=nocombine]]
-      vim.cmd [[highlight TSRainbowBlue guifg=#56B6C2 gui=nocombine]]
-      vim.cmd [[highlight TSRainbowCyan guifg=#61AFEF gui=nocombine]]
-      vim.cmd [[highlight TSRainbowViolet guifg=#C678DD gui=nocombine]]
-      require('nvim-treesitter.configs').setup({
+      vim.cmd([[highlight TSRainbowRed guifg=#E06C75 gui=nocombine]])
+      vim.cmd([[highlight TSRainbowYellow guifg=#E5C07B gui=nocombine]])
+      vim.cmd([[highlight TSRainbowGreen  guifg=#98C379 gui=nocombine]])
+      vim.cmd([[highlight TSRainbowBlue guifg=#56B6C2 gui=nocombine]])
+      vim.cmd([[highlight TSRainbowCyan guifg=#61AFEF gui=nocombine]])
+      vim.cmd([[highlight TSRainbowViolet guifg=#C678DD gui=nocombine]])
+      require("nvim-treesitter.configs").setup({
         rainbow = {
           enable = true,
           -- list of languages you want to disable the plugin for
-          disable = { 'jsx', 'cpp' },
+          disable = { "jsx", "cpp" },
           -- Which query to use for finding delimiters
-          query = 'rainbow-parens',
+          query = "rainbow-parens",
           -- Highlight the entire buffer all at once
-          strategy = require('ts-rainbow').strategy.global,
+          strategy = require("ts-rainbow").strategy.global,
           hlgroups = {
-            'TSRainbowRed',
-            'TSRainbowYellow',
-            'TSRainbowGreen',
-            'TSRainbowBlue',
-            'TSRainbowCyan',
+            "TSRainbowRed",
+            "TSRainbowYellow",
+            "TSRainbowGreen",
+            "TSRainbowBlue",
+            "TSRainbowCyan",
             -- 'TSRainbowOrange',
-            'TSRainbowViolet',
+            "TSRainbowViolet",
           },
         },
       })

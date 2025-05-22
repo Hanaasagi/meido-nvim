@@ -58,9 +58,37 @@ map("n", "<leader>tk", ":tabprev<CR>", { silent = true, desc = "switch to prev t
 -- jump to specific tab
 local i = 0
 for i = 1, 9 do
-  map("n", string.format('<leader>%d', i), string.format('%dgt', i), { silent = true, noremap = true })
+  map("n", string.format("<leader>%d", i), string.format("%dgt", i), { silent = true, noremap = true })
 end
 
-map("n", "<leader>tv", ":TabVSplit2Window<CR>", { silent = true, noremap = true })
-map("n", "<leader>ts", ":TabSplit2Window<CR>", { silent = true, noremap = true })
+-- Helper function: Close the current tab, split windows, and reopen buffers
+local function tab_to_windows(split_type)
+  local bufnums = vim.fn.tabpagebuflist()
+  vim.cmd("tabclose") -- Close the current tab
+  vim.cmd("topleft " .. split_type) -- Open the first window (split/vsplit)
+
+  for _, buf in ipairs(bufnums) do
+    vim.cmd("sbuffer " .. buf) -- Open buffer in the split
+    vim.cmd("wincmd _") -- Maximize the current window
+  end
+
+  vim.cmd("wincmd t") -- Focus the first window
+  vim.cmd("quit") -- Quit the initial split
+  vim.cmd("wincmd =") -- Equalize window sizes
+end
+
+-- Vertical split: Command and mapping
+vim.api.nvim_create_user_command("TabVSplit2Window", function()
+  tab_to_windows("vsplit")
+end, {})
+
+vim.keymap.set("n", "<leader>tv", ":TabVSplit2Window<CR>", { silent = true, noremap = true })
+
+-- Horizontal split: Command and mapping
+vim.api.nvim_create_user_command("TabSplit2Window", function()
+  tab_to_windows("split")
+end, {})
+
+vim.keymap.set("n", "<leader>ts", ":TabSplit2Window<CR>", { silent = true, noremap = true })
+
 map("n", "<Space>", "i<Space><Esc>", { silent = true, noremap = true })

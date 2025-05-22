@@ -20,7 +20,7 @@ return {
   {
     "nvim-treesitter/nvim-treesitter-context",
     config = function()
-      require('treesitter-context').setup({
+      require("treesitter-context").setup({
         -- max_lines=8
         multiline_threshold = 1,
       })
@@ -41,7 +41,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function()
-      require'nvim-treesitter.configs'.setup {
+      require("nvim-treesitter.configs").setup({
         -- Required by "windwp/nvim-ts-autotag"
         autotag = { enable = true },
         -- Required by "andymass/vim-matchup"
@@ -57,47 +57,47 @@ return {
             lookahead = true,
             keymaps = {
               -- You can use the capture groups defined in textobjects.scm
-              ['af'] = '@function.outer',
-              ['if'] = '@function.inner',
-              ['ac'] = '@conditional.outer',
-              ['ic'] = '@conditional.inner',
-              ['ai'] = '@call.outer',
-              ['ii'] = '@call.inner',
-              ['ab'] = '@block.outer',
-              ['ib'] = '@block.inner',
-              ['is'] = '@statement.inner',
-              ['as'] = '@statement.outer',
-              ['aC'] = '@class.outer',
-              ['iC'] = '@class.inner',
-              ['al'] = '@loop.outer',
-              ['il'] = '@loop.inner',
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["ac"] = "@conditional.outer",
+              ["ic"] = "@conditional.inner",
+              ["ai"] = "@call.outer",
+              ["ii"] = "@call.inner",
+              ["ab"] = "@block.outer",
+              ["ib"] = "@block.inner",
+              ["is"] = "@statement.inner",
+              ["as"] = "@statement.outer",
+              ["aC"] = "@class.outer",
+              ["iC"] = "@class.inner",
+              ["al"] = "@loop.outer",
+              ["il"] = "@loop.inner",
             },
           },
           swap = {
             enable = true,
-            swap_next = { ['<leader>a'] = '@parameter.inner' },
-            swap_previous = { ['<leader>A'] = '@parameter.inner' },
+            swap_next = { ["<leader>a"] = "@parameter.inner" },
+            swap_previous = { ["<leader>A"] = "@parameter.inner" },
           },
           move = {
             enable = true,
             set_jumps = true, -- whether to set jumps in the jumplist
             goto_next_start = {
-              [']m'] = '@function.outer',
-              [']]'] = { query = '@class.outer', desc = 'Next class start' },
-              [']o'] = '@loop.*',
-              [']s'] = { query = '@scope', query_group = 'locals', desc = 'Next scope' },
-              [']z'] = { query = '@fold', query_group = 'folds', desc = 'Next fold' },
+              ["]m"] = "@function.outer",
+              ["]]"] = { query = "@class.outer", desc = "Next class start" },
+              ["]o"] = "@loop.*",
+              ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
+              ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
             },
-            goto_next_end = { [']M'] = '@function.outer', [']['] = '@class.outer' },
-            goto_previous_start = { ['[m'] = '@function.outer', ['[['] = '@class.outer' },
-            goto_previous_end = { ['[M'] = '@function.outer', ['[]'] = '@class.outer' },
-            goto_next = { [']d'] = '@conditional.outer' },
-            goto_previous = { ['[d'] = '@conditional.outer' },
+            goto_next_end = { ["]M"] = "@function.outer", ["]["] = "@class.outer" },
+            goto_previous_start = { ["[m"] = "@function.outer", ["[["] = "@class.outer" },
+            goto_previous_end = { ["[M"] = "@function.outer", ["[]"] = "@class.outer" },
+            goto_next = { ["]d"] = "@conditional.outer" },
+            goto_previous = { ["[d"] = "@conditional.outer" },
           },
           lsp_interop = {
             enable = true,
-            border = 'none',
-            peek_definition_code = { ['<leader>sd'] = '@function.outer', ['<leader>sD'] = '@class.outer' },
+            border = "none",
+            peek_definition_code = { ["<leader>sd"] = "@function.outer", ["<leader>sD"] = "@class.outer" },
           },
         },
 
@@ -131,8 +131,7 @@ return {
           additional_vim_regex_highlighting = false,
         },
         indent = { enable = true },
-      }
-
+      })
     end,
   },
 
@@ -141,26 +140,26 @@ return {
   {
     "nvim-treesitter/playground",
     config = function()
-      require"nvim-treesitter.configs".setup {
+      require("nvim-treesitter.configs").setup({
         playground = {
           enable = true,
           disable = {},
           updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
           persist_queries = false, -- Whether the query persists across vim sessions
           keybindings = {
-            toggle_query_editor = 'o',
-            toggle_hl_groups = 'i',
-            toggle_injected_languages = 't',
-            toggle_anonymous_nodes = 'a',
-            toggle_language_display = 'I',
-            focus_language = 'f',
-            unfocus_language = 'F',
-            update = 'R',
-            goto_node = '<cr>',
-            show_help = '?',
+            toggle_query_editor = "o",
+            toggle_hl_groups = "i",
+            toggle_injected_languages = "t",
+            toggle_anonymous_nodes = "a",
+            toggle_language_display = "I",
+            focus_language = "f",
+            unfocus_language = "F",
+            update = "R",
+            goto_node = "<cr>",
+            show_help = "?",
           },
         },
-      }
+      })
     end,
   },
 
@@ -168,15 +167,15 @@ return {
     "folke/trouble.nvim",
     dependencies = "nvim-tree/nvim-web-devicons",
     config = function()
-      require("trouble").setup {
+      require("trouble").setup({
         -- your configuration comes here
         -- or leave it empty to use the default settings
         -- refer to the configuration section below
-      }
+      })
     end,
   },
 
   -- https://github.com/editorconfig/editorconfig-vim
   -- This is an EditorConfig plugin for Vim. This plugin can be found on both GitHub and Vim online.
-  { 'editorconfig/editorconfig-vim', event = 'BufRead' },
+  { "editorconfig/editorconfig-vim", event = "BufRead" },
 }

@@ -11,7 +11,7 @@ return {
   -- https://github.com/folke/neodev.nvim
   -- Neovim setup for init.ua and plugin development with full signature help,
   -- docs and completion for the nvim lua API.
-  { 'folke/neodev.nvim', lazy = true },
+  { "folke/neodev.nvim", lazy = true },
 
   -- https://github.com/jubnzv/virtual-types.nvim
   -- This plugin shows type annotations for functions in virtual text using built-in LSP client.
@@ -49,8 +49,8 @@ return {
     -- install jsregexp (optional!).
     build = "make install_jsregexp",
     config = function()
-      require('luasnip.loaders.from_vscode').lazy_load()
-      require('luasnip').filetype_extend("typescript", { "javascript" })
+      require("luasnip.loaders.from_vscode").lazy_load()
+      require("luasnip").filetype_extend("typescript", { "javascript" })
       local map = vim.keymap.set
       local opts = { noremap = true, silent = true }
       map("i", "<C-J>", "<CMD>lua require'luasnip'.jump(1)<CR>", opts)
@@ -82,7 +82,7 @@ return {
   {
     "ray-x/lsp_signature.nvim",
     config = function()
-      require"lsp_signature".setup({
+      require("lsp_signature").setup({
         floating_window = true,
         -- noice=true,
         hint_prefix = "💊",
@@ -101,7 +101,7 @@ return {
     config = function()
       -- require("cmp").setup({ sources = { { name = 'nvim_lsp' } } })
 
-      local cmp = require 'cmp'
+      local cmp = require("cmp")
       local types = require("cmp.types")
       local str = require("cmp.utils.str")
       local lspkind = require("lspkind")
@@ -111,7 +111,7 @@ return {
           -- REQUIRED - you must specify a snippet engine
           expand = function(args)
             -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+            require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
             -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
             -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
           end,
@@ -121,12 +121,12 @@ return {
           fields = { cmp.ItemField.Abbr, cmp.ItemField.Kind, cmp.ItemField.Menu },
           format = lspkind.cmp_format({
             -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
-            mode = 'symbol_text',
+            mode = "symbol_text",
             -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
             maxwidth = 50,
             -- when popup menu exceed maxwidth,
             -- the truncated part would show ellipsis_char instead (must define maxwidth first)
-            ellipsis_char = '...',
+            ellipsis_char = "...",
 
             -- The function below will be called before any actual modifications from lspkind
             -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
@@ -149,8 +149,10 @@ return {
               -- 	word = before .. "..."
               -- end
 
-              if entry.completion_item.insertTextFormat == types.lsp.InsertTextFormat.Snippet and
-                string.sub(vim_item.abbr, -1, -1) == "~" then
+              if
+                entry.completion_item.insertTextFormat == types.lsp.InsertTextFormat.Snippet
+                and string.sub(vim_item.abbr, -1, -1) == "~"
+              then
                 word = word .. "~"
               end
               vim_item.abbr = word
@@ -165,10 +167,10 @@ return {
         -- https://github.com/hrsh7th/nvim-cmp/blob/main/lua/cmp/config/mapping.lua
         -- https://github.com/hrsh7th/nvim-cmp/blob/main/lua/cmp/types/cmp.lua
         mapping = {
-          ['<C-j>'] = cmp.mapping(cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }), { 'i', 'c' }),
-          ['<C-k>'] = cmp.mapping(cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }), { 'i', 'c' }),
+          ["<C-j>"] = cmp.mapping(cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }), { "i", "c" }),
+          ["<C-k>"] = cmp.mapping(cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }), { "i", "c" }),
           -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-          ['<CR>'] = cmp.mapping.confirm({ select = true }),
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
 
           -- ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4),
           --                        { 'i', 'c' }),
@@ -178,33 +180,34 @@ return {
           -- ['<C-c>'] = cmp.mapping.abort(),
         },
         sources = cmp.config.sources( -- group
-        {
-          { name = 'nvim_lsp' },
-          { name = 'luasnip' }, -- For luasnip users.
-          -- { name = 'vsnip' }, -- For vsnip users.
-          -- { name = 'ultisnips' }, -- For ultisnips users.
-          -- { name = 'snippy' }, -- For snippy users.
-        }, -- { { name = 'nvim_lsp_signature_help' } },
-        { { name = "path", option = { label_trailing_slash = false, trailing_slash = false } }, { name = 'buffer' } }),
+          {
+            { name = "nvim_lsp" },
+            { name = "luasnip" }, -- For luasnip users.
+            -- { name = 'vsnip' }, -- For vsnip users.
+            -- { name = 'ultisnips' }, -- For ultisnips users.
+            -- { name = 'snippy' }, -- For snippy users.
+          }, -- { { name = 'nvim_lsp_signature_help' } },
+          { { name = "path", option = { label_trailing_slash = false, trailing_slash = false } }, { name = "buffer" } }
+        ),
       })
 
       -- Set configuration for specific filetype.
-      cmp.setup.filetype('gitcommit', {
+      cmp.setup.filetype("gitcommit", {
         sources = cmp.config.sources({
-          { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
-        }, { { name = 'buffer' } }),
+          { name = "cmp_git" }, -- You can specify the `cmp_git` source if you were installed it.
+        }, { { name = "buffer" } }),
       })
 
       -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-      cmp.setup.cmdline({ '/', '?' }, { mapping = cmp.mapping.preset.cmdline(), sources = { { name = 'buffer' } } })
+      cmp.setup.cmdline({ "/", "?" }, { mapping = cmp.mapping.preset.cmdline(), sources = { { name = "buffer" } } })
 
       -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
       -- BUG: There is a bug https://github.com/hrsh7th/cmp-path/issues/40
-      cmp.setup.cmdline(':', {
+      cmp.setup.cmdline(":", {
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
-          { name = 'path', option = { label_trailing_slash = false, trailing_slash = false } },
-        }, { { name = 'cmdline', keyword_length = 2 } }),
+          { name = "path", option = { label_trailing_slash = false, trailing_slash = false } },
+        }, { { name = "cmdline", keyword_length = 2 } }),
       })
 
       -- local cmp_autopairs = require('nvim-autopairs.completion.cmp')
@@ -212,21 +215,21 @@ return {
       -- cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
 
       -- Set up lspconfig.
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
       -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
       require("neodev").setup({})
-      require('lspconfig')['lua_ls'].setup {
+      require("lspconfig")["lua_ls"].setup({
         settings = { Lua = { completion = { callSnippet = "Replace" } } },
         capabilities = capabilities,
-      }
-      require('lspconfig')['pyright'].setup { capabilities = capabilities }
+      })
+      require("lspconfig")["pyright"].setup({ capabilities = capabilities })
       -- use rust-tools.nvim to setup
       -- require('lspconfig')['rust_analyzer'].setup { capabilities = capabilities }
       -- require('lspconfig')['tsserver'].setup { capabilities = capabilities }
-      require('lspconfig')['ts_ls'].setup { capabilities = capabilities }
-      require('lspconfig')['gopls'].setup { capabilities = capabilities }
-      require('lspconfig')['zls'].setup { capabilities = capabilities }
-      require('lspconfig')['clangd'].setup { capabilities = capabilities }
+      require("lspconfig")["ts_ls"].setup({ capabilities = capabilities })
+      require("lspconfig")["gopls"].setup({ capabilities = capabilities })
+      require("lspconfig")["zls"].setup({ capabilities = capabilities })
+      require("lspconfig")["clangd"].setup({ capabilities = capabilities })
     end,
   },
 
@@ -236,19 +239,18 @@ return {
     "Exafunction/codeium.vim",
     config = function()
       vim.g.codeium_disable_bindings = 1
-      vim.keymap.set('i', '<c-n>', function()
-        return vim.fn['codeium#Accept']()
+      vim.keymap.set("i", "<c-n>", function()
+        return vim.fn["codeium#Accept"]()
       end, { expr = true })
-      vim.keymap.set('i', '<c-j>', function()
-        return vim.fn['codeium#CycleCompletions'](1)
+      vim.keymap.set("i", "<c-j>", function()
+        return vim.fn["codeium#CycleCompletions"](1)
       end, { expr = true })
-      vim.keymap.set('i', '<c-k>', function()
-        return vim.fn['codeium#CycleCompletions'](-1)
+      vim.keymap.set("i", "<c-k>", function()
+        return vim.fn["codeium#CycleCompletions"](-1)
       end, { expr = true })
       -- vim.keymap.set('i', '<c-x>', function()
       --   return vim.fn['codeium#Clear']()
       -- end, { expr = true })
     end,
   },
-
 }
