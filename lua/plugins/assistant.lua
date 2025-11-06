@@ -5,9 +5,8 @@ return {
     lazy = false,
     version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
     opts = {
-      provider = "claude_openrouter",
       auto_suggestions_provider = "claude_openrouter",
-      vendors = {
+      providers = {
         deepseek = {
           __inherited_from = "openai",
           api_key_name = "DEEPSEEK_API_KEY",
@@ -18,7 +17,7 @@ return {
           __inherited_from = "openai",
           api_key_name = "OPENROUTER_API_KEY",
           endpoint = "https://openrouter.ai/api/v1",
-          model = "anthropic/claude-3.7-sonnet",
+          model = "anthropic/claude-sonnet-4",
         },
       },
 

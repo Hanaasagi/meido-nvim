@@ -88,6 +88,9 @@ return {
           -- You can customize some of the format options for the filetype (:help conform.format)
           rust = { "rustfmt", lsp_format = "fallback" },
           go = { "gofmt" },
+          javascript = { "prettierd", "prettier", stop_after_first = true },
+          typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+          typescript = { "prettierd", "prettier", stop_after_first = true },
           -- Conform will run the first available formatter
           -- javascript = { "prettierd", "prettier", stop_after_first = true },
         },
@@ -122,23 +125,24 @@ return {
           --    end,
           -- }),
           null_ls.builtins.formatting.black,
-          null_ls.builtins.formatting.prettier,
+          -- null_ls.builtins.formatting.shfmt,
+          -- null_ls.builtins.formatting.prettier,
           -- null_ls.builtins.formatting.rustfmt,
           -- null_ls.builtins.formatting.zigfmt,
           -- null_ls.builtins.formatting.xmlformat,
-          null_ls.builtins.formatting.gofmt,
+          -- null_ls.builtins.formatting.gofmt,
         },
         on_attach = function(client, bufnr)
-          -- if client.supports_method("textDocument/formatting") then
-          --   vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-          --   vim.api.nvim_create_autocmd("BufWritePre", {
-          --     group = augroup,
-          --     buffer = bufnr,
-          --     callback = function()
-          --       vim.lsp.buf.format({ bufnr = bufnr })
-          --     end,
-          --   })
-          -- end
+          if client.supports_method("textDocument/formatting") then
+            vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+            vim.api.nvim_create_autocmd("BufWritePre", {
+              group = augroup,
+              buffer = bufnr,
+              callback = function()
+                vim.lsp.buf.format({ bufnr = bufnr })
+              end,
+            })
+          end
         end,
       })
 
