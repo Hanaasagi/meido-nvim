@@ -218,18 +218,18 @@ return {
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
       require("neodev").setup({})
-      require("lspconfig")["lua_ls"].setup({
+      vim.lsp.config("lua_ls", {
         settings = { Lua = { completion = { callSnippet = "Replace" } } },
         capabilities = capabilities,
       })
-      require("lspconfig")["pyright"].setup({ capabilities = capabilities })
+      vim.lsp.config("pyright", { capabilities = capabilities })
       -- use rust-tools.nvim to setup
       -- require('lspconfig')['rust_analyzer'].setup { capabilities = capabilities }
       -- require('lspconfig')['tsserver'].setup { capabilities = capabilities }
-      require("lspconfig")["ts_ls"].setup({ capabilities = capabilities })
-      require("lspconfig")["gopls"].setup({ capabilities = capabilities })
-      require("lspconfig")["zls"].setup({ capabilities = capabilities })
-      require("lspconfig")["clangd"].setup({ capabilities = capabilities })
+      vim.lsp.config("ts_ls", { capabilities = capabilities })
+      vim.lsp.config("gopls", { capabilities = capabilities })
+      vim.lsp.config("zls", { capabilities = capabilities })
+      vim.lsp.config("clangd", { capabilities = capabilities })
     end,
   },
 
