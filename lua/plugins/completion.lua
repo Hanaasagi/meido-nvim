@@ -19,22 +19,11 @@ return {
 
   -- https://github.com/simrat39/rust-tools.nvim
   -- A plugin to improve your rust experience in neovim.
+  -- https://github.com/mrcjkb/rustaceanvim
   {
-    "simrat39/rust-tools.nvim",
-    config = function()
-      local rt = require("rust-tools")
-
-      rt.setup({
-        server = {
-          on_attach = function(_, bufnr)
-            -- Hover actions
-            vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
-            -- Code action groups
-            vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
-          end,
-        },
-      })
-    end,
+    "mrcjkb/rustaceanvim",
+    version = "^6", -- Recommended
+    lazy = false, -- This plugin is already lazy
   },
 
   -- https://github.com/rafamadriz/friendly-snippets
@@ -222,14 +211,20 @@ return {
         settings = { Lua = { completion = { callSnippet = "Replace" } } },
         capabilities = capabilities,
       })
+      vim.lsp.enable("lua_ls")
       vim.lsp.config("pyright", { capabilities = capabilities })
+      vim.lsp.enable("pyright")
       -- use rust-tools.nvim to setup
       -- require('lspconfig')['rust_analyzer'].setup { capabilities = capabilities }
       -- require('lspconfig')['tsserver'].setup { capabilities = capabilities }
       vim.lsp.config("ts_ls", { capabilities = capabilities })
+      vim.lsp.enable("ts_ls")
       vim.lsp.config("gopls", { capabilities = capabilities })
+      vim.lsp.enable("gopls")
       vim.lsp.config("zls", { capabilities = capabilities })
+      vim.lsp.enable("zls")
       vim.lsp.config("clangd", { capabilities = capabilities })
+      vim.lsp.enable("clangd")
     end,
   },
 
