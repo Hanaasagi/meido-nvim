@@ -91,20 +91,18 @@ return {
   {
     "kylechui/nvim-surround",
     config = function()
-      require("nvim-surround").setup({
-        keymaps = {
-          insert = "<Nop>",
-          insert_line = "<NOP>",
-          normal = "ys",
-          normal_cur = "yss",
-          normal_line = "yS",
-          normal_cur_line = "ySS",
-          visual = "<NOP>",
-          visual_line = "<NOP>",
-          delete = "ds",
-          change = "cs",
-        },
-      })
+      vim.g.nvim_surround_no_mappings = true
+
+      require("nvim-surround").setup({})
+
+      vim.keymap.set("n", "ys", "<Plug>(nvim-surround-normal)")
+      vim.keymap.set("n", "yss", "<Plug>(nvim-surround-normal-cur)")
+      vim.keymap.set("n", "yS", "<Plug>(nvim-surround-normal-line)")
+      vim.keymap.set("n", "ySS", "<Plug>(nvim-surround-normal-cur-line)")
+
+      vim.keymap.set("n", "ds", "<Plug>(nvim-surround-delete)")
+
+      vim.keymap.set("n", "cs", "<Plug>(nvim-surround-change)")
     end,
   },
 
@@ -151,12 +149,12 @@ return {
     end,
   },
 
-  -- https://github.com/ggandor/leap.nvim
+  -- https://codeberg.org/andyg/leap.nvim
   -- Leap is a general-purpose motion plugin for Neovim,
   -- with the ultimate goal of establishing a new standard interface for moving around
   -- in the visible area in Vim-like modal editors.
   {
-    "ggandor/leap.nvim",
+    url = "https://codeberg.org/andyg/leap.nvim",
     config = function()
       require("leap")
     end,
