@@ -3,9 +3,7 @@ return {
   -- Use treesitter to autoclose and autorename html tag. It work with html,tsx,vue,svelte,php,rescript.
   {
     "windwp/nvim-ts-autotag",
-    -- config = function()
-    --  require('nvim-ts-autotag').setup()
-    -- end,
+    opts = {},
   },
 
   {
@@ -82,130 +80,78 @@ return {
   -- Location and syntax aware text objects which *do what you mean*
   -- { "RRethy/nvim-treesitter-textsubjects" },
 
-  -- https://github.com/nvim-treesitter/nvim-treesitter
-  --  Treesitter configurations and abstraction layer for Neovim.
+  -- https://github.com/nvim-treesitter/nvim-treesitter/tree/main
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    lazy = false,
     build = ":TSUpdate",
     config = function()
-      require("nvim-treesitter.configs").setup({
-        -- Required by "windwp/nvim-ts-autotag"
-        autotag = { enable = true },
-        -- Required by "andymass/vim-matchup"
-        matchup = {
-          enable = false, -- mandatory, false will disable the whole extension
-          -- disable = { "c", "ruby" }, -- optional, list of language that will be disabled
-          -- [options]
-        },
-        textobjects = {
-          select = {
-            enable = true,
-            -- Automatically jump forward to textobj, similar to targets.vim
-            lookahead = true,
-            keymaps = {
-              -- You can use the capture groups defined in textobjects.scm
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["ac"] = "@conditional.outer",
-              ["ic"] = "@conditional.inner",
-              ["ai"] = "@call.outer",
-              ["ii"] = "@call.inner",
-              ["ab"] = "@block.outer",
-              ["ib"] = "@block.inner",
-              ["is"] = "@statement.inner",
-              ["as"] = "@statement.outer",
-              ["aC"] = "@class.outer",
-              ["iC"] = "@class.inner",
-              ["al"] = "@loop.outer",
-              ["il"] = "@loop.inner",
-            },
-          },
-          swap = {
-            enable = true,
-            swap_next = { ["<leader>a"] = "@parameter.inner" },
-            swap_previous = { ["<leader>A"] = "@parameter.inner" },
-          },
-          move = {
-            enable = true,
-            set_jumps = true, -- whether to set jumps in the jumplist
-            goto_next_start = {
-              ["]m"] = "@function.outer",
-              ["]]"] = { query = "@class.outer", desc = "Next class start" },
-              ["]o"] = "@loop.*",
-              ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
-              ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
-            },
-            goto_next_end = { ["]M"] = "@function.outer", ["]["] = "@class.outer" },
-            goto_previous_start = { ["[m"] = "@function.outer", ["[["] = "@class.outer" },
-            goto_previous_end = { ["[M"] = "@function.outer", ["[]"] = "@class.outer" },
-            goto_next = { ["]d"] = "@conditional.outer" },
-            goto_previous = { ["[d"] = "@conditional.outer" },
-          },
-          lsp_interop = {
-            enable = true,
-            border = "none",
-            peek_definition_code = { ["<leader>sd"] = "@function.outer", ["<leader>sD"] = "@class.outer" },
-          },
-        },
+      local ts = require("nvim-treesitter")
 
-        ensure_installed = {
+      local ensure_installed = {
+        "lua",
+        "vim",
+        "vimdoc",
+        "query",
+        "rust",
+        "go",
+        "python",
+        -- Frontend
+        "typescript",
+        "css",
+        "javascript",
+        "tsx",
+        "html",
+      }
+
+      ts.install(ensure_installed, { summary = true })
+
+      local group = vim.api.nvim_create_augroup("user_treesitter", { clear = true })
+
+      vim.api.nvim_create_autocmd("FileType", {
+        group = group,
+        pattern = {
           "lua",
+          "vim",
+          "help",
+          "query",
           "rust",
           "go",
           "python",
-          -- Frontend
           "typescript",
-          "css",
-          "javascript",
           "tsx",
+          "javascript",
+          "css",
+          "html",
         },
-
-        -- Install parsers synchronously (only applied to `ensure_installed`)
-        sync_install = true,
-        -- Automatically install missing parsers when entering buffer
-        auto_install = true,
-        -- List of parsers to ignore installing (for "all")
-        ignore_install = { "javascript" },
-
-        highlight = {
-          enable = true,
-          -- list of language that will be disabled
-          disable = {},
-          -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-          -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-          -- Using this option may slow down your editor, and you may see some duplicate highlights.
-          -- Instead of true it can also be a list of languages
-          additional_vim_regex_highlighting = false,
-        },
-        indent = { enable = true },
+        callback = function()
+          local ok, err = pcall(vim.treesitter.start)
+          if ok then
+            vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+          else
+            vim.notify_once(("treesitter start failed: %s"):format(err), vim.log.levels.WARN)
+          end
+        end,
       })
-    end,
-  },
 
-  -- https://github.com/nvim-treesitter/playground
-  -- View treesitter information directly in Neovim!
-  {
-    "nvim-treesitter/playground",
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        playground = {
-          enable = true,
-          disable = {},
-          updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-          persist_queries = false, -- Whether the query persists across vim sessions
-          keybindings = {
-            toggle_query_editor = "o",
-            toggle_hl_groups = "i",
-            toggle_injected_languages = "t",
-            toggle_anonymous_nodes = "a",
-            toggle_language_display = "I",
-            focus_language = "f",
-            unfocus_language = "F",
-            update = "R",
-            goto_node = "<cr>",
-            show_help = "?",
-          },
-        },
+      local attempted = {}
+      vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+        group = group,
+        callback = function(ev)
+          local lang = vim.treesitter.language.get_lang(vim.bo[ev.buf].filetype)
+          if not lang or lang == "" or attempted[lang] then
+            return
+          end
+          attempted[lang] = true
+          if vim.tbl_contains(ts.get_installed(), lang) then
+            return
+          end
+          if not vim.tbl_contains(ts.get_available(), lang) then
+            return
+          end
+          ts.install(lang)
+        end,
       })
     end,
   },
