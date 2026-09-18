@@ -40,13 +40,21 @@ return {
     end,
   },
 
-  -- https://github.com/norcalli/nvim-colorizer.lua
+  -- https://github.com/catgoose/nvim-colorizer.lua
   -- A high-performance color highlighter for Neovim which has no external
   -- dependencies! Written in performant Luajit.
+  -- NOTE: norcalli/nvim-colorizer.lua is abandoned (last code commit 2021) and still calls
+  -- vim.tbl_flatten, which Nvim 0.13 removes. catgoose is the maintained fork (ex-NvChad).
+  -- Its setup() takes a single opts table, so filetypes must be passed under `filetypes`
+  -- (a bare list like { "css", "lua" } is silently ignored and falls back to "*").
   {
-    "norcalli/nvim-colorizer.lua",
+    "catgoose/nvim-colorizer.lua",
+    event = "BufReadPre",
     config = function()
-      require("colorizer").setup({ "css", "javascript", "typescript", "html", "lua" })
+      require("colorizer").setup({
+        filetypes = { "css", "javascript", "typescript", "html", "lua" },
+        -- user_commands defaults to true -> :ColorizerToggle / :ColorizerAttachToBuffer
+      })
     end,
   },
 
