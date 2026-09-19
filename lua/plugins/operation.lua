@@ -120,15 +120,31 @@ return {
   -- Copy the text in remote Vim to local clipboard. It depends on OSC52 escape sequences.
   -- Unlike other OSC52 Vim scripts (e.g. code snippet in chromium hterm),
   -- it solves the flash problem when copy the text.
+  --
+  -- OSC52 is only needed when Neovim runs on a remote host over SSH. Locally (e.g. macOS),
+  -- Neovim talks to the system clipboard directly via its builtin provider (pbcopy/pbpaste).
   {
     "Hanaasagi/remote-copy.vim",
     config = function()
+      local is_remote = vim.env.SSH_TTY ~= nil or vim.env.SSH_CONNECTION ~= nil
+      if is_remote then
+        vim.keymap.set(
+          "v",
+          "<C-c>",
+          [[y:call remote_copy#copy2clipboard(getreg('"'))<CR>]],
+          { silent = true, noremap = true, desc = "copy text" }
+        )
+        return
+      end
+
+      -- Visual mode copies the selection, normal mode copies the current line.
       vim.keymap.set(
         "v",
         "<C-c>",
-        [[y:call remote_copy#copy2clipboard(getreg('"'))<CR>]],
-        { silent = true, noremap = true, desc = "copy text" }
+        '"+y',
+        { silent = true, noremap = true, desc = "copy selection to system clipboard" }
       )
+      vim.keymap.set("n", "<C-c>", '"+yy', { silent = true, noremap = true, desc = "copy line to system clipboard" })
     end,
   },
 
