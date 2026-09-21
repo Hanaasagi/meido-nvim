@@ -116,20 +116,18 @@ return {
     end,
   },
 
-  -- https://github.com/Hanaasagi/inflection.vim
-  -- Binding the Python inflection in Vim.
+  -- https://github.com/Hanaasagi/inflection.lua
+  -- Pure Lua port of the Python `inflection` package: word-case conversion,
+  -- pluralization and ordinals. Drops the python3 host and the vendored
+  -- submodule; the transforms are verified byte-for-byte against the reference
+  -- implementation in that repository.
+  --
+  -- The editor-facing half (:Inflection, :InflectionVisual and i_<C-l>) lives in
+  -- builtin/inflection.lua and behaves exactly like inflection.vim did.
   {
-    "Hanaasagi/inflection.vim",
+    "Hanaasagi/inflection.lua",
     config = function()
-      vim.api.nvim_create_user_command("Inflection", "call inflection#inflect_current_word()", {})
-
-      vim.api.nvim_create_user_command("InflectionVisual", "call inflection#inflect_visaul_block()", { range = 0 })
-      vim.keymap.set(
-        "i",
-        "<C-l>",
-        [[<ESC>:call inflection#inflect_current_word_in_insert_mode()<CR>]],
-        { silent = false, noremap = true, desc = "inflect a word" }
-      )
+      require("builtin/inflection")
     end,
   },
 
